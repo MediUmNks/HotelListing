@@ -1,0 +1,43 @@
+@HotelListing_API_HostAddress = https://localhost:7290
+
+
+###
+
+GET {{HotelListing_API_HostAddress}}/api/checkout
+
+###
+
+POST {{HotelListing_API_HostAddress}}/api/checkout
+Content-Type: application/json
+
+{
+  "id":5,
+  "Title":"Grand Plazza",
+  "Rating":4.8
+}
+
+###
+
+@id=4
+GET {{HotelListing_API_HostAddress}}/api/checkout/{{id}}
+
+###
+
+PUT {{HotelListing_API_HostAddress}}/api/checkout/{{id}}
+Content-Type: application/json
+
+{
+  "Id":5,
+  "Tilte":"Grand Plaza",
+  "Rating":4.3
+}
+
+
+
+###
+
+DELETE {{HotelListing_API_HostAddress}}/api/checkout/{{id}}
+{
+  "Id":1
+}
+###
