@@ -1,43 +1,58 @@
 @HotelListing_API_HostAddress = https://localhost:7290
 
 
+
+GET {{HotelListing_API_HostAddress}}/api/countries
+
 ###
 
-GET {{HotelListing_API_HostAddress}}/api/checkout
+@id=2
+GET {{HotelListing_API_HostAddress}}/api/countries/{{id}}
 
 ###
 
-POST {{HotelListing_API_HostAddress}}/api/checkout
+GET {{HotelListing_API_HostAddress}}/api/hotels
+
+###
+@id=1
+GET {{HotelListing_API_HostAddress}}/api/hotels/{{id}}
+
+###
+
+POST {{HotelListing_API_HostAddress}}/api/hotels
 Content-Type: application/json
 
 {
-  "id":5,
-  "Title":"Grand Plazza",
-  "Rating":4.8
+  "Tilte":"Sheikh Mehmed",
+  "Rating":4.9,
+  "CountryId":2
 }
 
 ###
 
-@id=4
-GET {{HotelListing_API_HostAddress}}/api/checkout/{{id}}
-
-###
-
-PUT {{HotelListing_API_HostAddress}}/api/checkout/{{id}}
+POST {{HotelListing_API_HostAddress}}/api/countries
 Content-Type: application/json
 
 {
-  "Id":5,
-  "Tilte":"Grand Plaza",
-  "Rating":4.3
+  "Name": "Iran"
 }
 
+###
+@id=2
+PUT {{HotelListing_API_HostAddress}}/api/countries/{{id}}
+Content-Type: application/json
 
+{
+  
+}
 
 ###
 
-DELETE {{HotelListing_API_HostAddress}}/api/checkout/{{id}}
+PUT {{HotelListing_API_HostAddress}}/api/hotels/{id}
+Content-Type: application/json
+
 {
-  "Id":1
+  //Nullable
 }
+
 ###
