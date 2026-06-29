@@ -1,4 +1,5 @@
 using HotelListing_API.Data;
+using HotelListing_API.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -54,7 +55,7 @@ public class HotelsController : ControllerBase
             return NotFound();
         }
 
-        result.Tilte = hotels.Tilte;
+        result.Title = hotels.Title;
         result.Rating = hotels.Rating;
         result.CountryId = hotels.CountryId;
 
@@ -77,7 +78,7 @@ public class HotelsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Hotels>> PostHotels(Hotels hotels)
     {
-        var check = await _context.Hotel.AnyAsync(h => h.Tilte == hotels.Tilte);
+        var check = await _context.Hotel.AnyAsync(h => h.Title == hotels.Title);
         if (check)
         {
             return BadRequest("Hotel Title already exists!");

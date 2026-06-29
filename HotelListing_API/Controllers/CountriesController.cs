@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using HotelListing_API.Data;
+using HotelListing_API.Data.Entities;
 
 namespace HotelListing_API.Controllers;
 
