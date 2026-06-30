@@ -2,20 +2,10 @@
 
 
 
-GET {{HotelListing_API_HostAddress}}/api/countries
-
-###
-
-@id=2
-GET {{HotelListing_API_HostAddress}}/api/countries/{{id}}
 
 ###
 
 GET {{HotelListing_API_HostAddress}}/api/hotels
-
-###
-@id=1
-GET {{HotelListing_API_HostAddress}}/api/hotels/{{id}}
 
 ###
 
@@ -23,36 +13,32 @@ POST {{HotelListing_API_HostAddress}}/api/hotels
 Content-Type: application/json
 
 {
-  "Tilte":"Sheikh Mehmed",
-  "Rating":4.9,
-  "CountryId":2
+"Title":"Emam Reza",
+"Rating":4.3,
+"CountryId":1
 }
 
 ###
 
-POST {{HotelListing_API_HostAddress}}/api/countries
-Content-Type: application/json
-
-{
-  "Name": "Iran"
-}
+@id=8
+DELETE {{HotelListing_API_HostAddress}}/api/hotels/{{id}}
 
 ###
+
 @id=2
-PUT {{HotelListing_API_HostAddress}}/api/countries/{{id}}
-Content-Type: application/json
-
-{
-  
-}
+GET {{HotelListing_API_HostAddress}}/api/hotels/{{id}}
 
 ###
 
-PUT {{HotelListing_API_HostAddress}}/api/hotels/{id}
+@id=7
+PUT {{HotelListing_API_HostAddress}}/api/hotels/{{id}}
 Content-Type: application/json
 
 {
-  //Nullable
+  "id":7,
+  "Title":"Rezvan",
+  "Rating": 2.6,
+  "CountryId": 1
 }
 
 ###

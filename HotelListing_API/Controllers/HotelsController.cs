@@ -1,5 +1,6 @@
 using HotelListing_API.Data;
 using HotelListing_API.Data.Entities;
+using HotelListing_API.DTOs.Hotel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,47 +18,50 @@ public class HotelsController : ControllerBase
 
     // GET: api/Hotels
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Hotels>>> GetHotels()
+    public async Task<ActionResult<IEnumerable<GetHotelsDto>>> GetHotels()
     {
-        var result = _context.Hotel.ToListAsync();
-        if (result == null)
+        var search = await _context.Hotel.Select(h => new GetHotelsDto(h.Id,
+            h.Title,
+            h.Rating,
+            h.CountryId)).ToListAsync();
+        if (!search.Any())
         {
             return NotFound();
         }
-        return await _context.Hotel.ToListAsync();
+        return Ok(search);
     }
 
     // GET: api/Hotels/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Hotels>> GetHotels(int id)
+    public async Task<ActionResult<GetHotelDto>> GetHotel(int id)
     {
-        var hotel = await _context.Hotel.Include(q => q.country).FirstOrDefaultAsync(h => h.Id == id);
+        var hotel = await _context.Hotel.FirstOrDefaultAsync(h => h.Id == id);
         if (hotel == null)
         {
             return NotFound();
         }
-
-        return Ok(hotel);
+        GetHotelDto hotelDto = new GetHotelDto(hotel.Id, hotel.Title, hotel.Rating, hotel.CountryId);
+        return Ok(hotelDto);
     }
 
     // PUT: api/Hotels/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutHotels(int? id, Hotels hotels)
+    public async Task<IActionResult> PutHotels(int id, UpdateHotelDto dto)
     {
-        if (id != hotels.Id)
+        if (id != dto.Id)
         {
             return BadRequest();
         }
 
-        var result = await _context.Hotel.FirstOrDefaultAsync(h => h.Id == id);
+        var result = await _context.Hotel.FindAsync(id);
         if (result == null)
         {
             return NotFound();
         }
 
-        result.Title = hotels.Title;
-        result.Rating = hotels.Rating;
-        result.CountryId = hotels.CountryId;
+        result.Title = dto.Title;
+        result.Rating = dto.Rating;
+        result.CountryId = dto.CountryId;
 
         try
         {
@@ -76,22 +80,28 @@ public class HotelsController : ControllerBase
 
     // POST: api/Hotels
     [HttpPost]
-    public async Task<ActionResult<Hotels>> PostHotels(Hotels hotels)
+    public async Task<ActionResult<CreateHotelDto>> PostHotels(CreateHotelDto crdto)
     {
-        var check = await _context.Hotel.AnyAsync(h => h.Title == hotels.Title);
+        var check = await _context.Hotel.AnyAsync(h => h.Title == crdto.Title);
         if (check)
         {
             return BadRequest("Hotel Title already exists!");
         }
-        _context.Hotel.Add(hotels);
+        var dto = new Hotels()
+        {
+            Title = crdto.Title,
+            Rating = crdto.Rating,
+            CountryId = crdto.CountryId,
+        };
+        _context.Hotel.Add(dto);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction("GetHotels", new { id = hotels.Id }, hotels);
+        return CreatedAtAction(nameof(GetHotel), new { id = dto.Id }, dto);
     }
 
     // DELETE: api/Hotels/5
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteHotels(int? id)
+    public async Task<IActionResult> DeleteHotels(int id)
     {
         var hotels = await _context.Hotel.FindAsync(id);
         if (hotels == null)
@@ -109,4 +119,15 @@ public class HotelsController : ControllerBase
     {
         return await _context.Hotel.AnyAsync(e => e.Id == id);
     }
+
+
+    [HttpGet("Test")]
+    public ActionResult<List<object>> TestQueryString(string rating,int countryid)
+    {
+        var result = new List<object>();
+        result.Add((rating, countryid));
+
+        return result;
+    }
+    
 }
