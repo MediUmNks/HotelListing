@@ -9,33 +9,19 @@ namespace HotelListing_API.Controllers;
 [ApiController]
 public class CountriesController : ControllerBase
 {
-    private readonly HotelListingDbContext _context;
-    public CountriesController(HotelListingDbContext context)
-    {
-        _context = context;
-    }
 
     // GET: api/Country
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Country>>> GetCountries()
     {
-        var result = await _context.Countries.ToListAsync();
-        return Ok(result);
+        return null;
     }
 
     // GET: api/Country/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Country>> GetCountriesById(int id)
     {
-        var country = await _context.Countries.Include(q => q.Hotellist)
-            .FirstOrDefaultAsync(c => c.Id == id);
-
-        if (country == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(country);
+        return null;
     }
 
     // PUT: api/Country/5
