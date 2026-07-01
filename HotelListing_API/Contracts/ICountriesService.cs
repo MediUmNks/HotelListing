@@ -5,9 +5,10 @@ namespace HotelListing_API.Contracts
 {
     public interface ICountriesService
     {
+        Task<Country> CreateCountry(CreateCountryDto createcountry);
         Task DeleteCountry(int id);
-        Task<IEnumerable<Country>?> GetCountries();
-        Task<GetCountryDto> GetCountrغById(int id);
-        Task PutCountry(int id, UpdateCountryDto upcountrydto);
+        Task<IEnumerable<GetCountriesDto>?> GetCountries();
+        Task<GetCountryDto> GetCountryById(int id);
+        Task UpdateCountry(int id, UpdateCountryDto upcountrydto);
     }
 }
